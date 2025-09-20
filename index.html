@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Collection Game</title>
+    <style>
+        canvas {
+            background-image: url("https://opengameart.org/sites/default/files/tilesetOpenGameBackground_1.png");
+            border: 3px solid rgb(187, 182, 182);
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<canvas id="gameCanvas" width="400" height="600"></canvas>
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+let playerX = 180;
+const playerWidth = 60;
+const playerHeight = 15;
+
+let itemX = Math.random() * (canvas.width - 20);
+let itemY = 0;
+const itemSize = 20;
+
+let score = 0;
+
+let leftPressed = false;
+let rightPressed = false;
+
+document.addEventListener('keydown', function(k) {
+    if (k.key === 'ArrowLeft') leftPressed = true;
+    if (k.key === 'ArrowRight') rightPressed = true;
+});
+document.addEventListener('keyup', function(k) {
+    if (k.key === 'ArrowLeft') leftPressed = false;
+    if (k.key === 'ArrowRight') rightPressed = false;
+});
+
+function update() {
+    if (leftPressed && playerX > 0) {
+        playerX -= 5;
+    }
+    if (rightPressed && playerX < canvas.width - playerWidth) {
+        playerX += 5;
+    }
+
+    itemY += 4;
+    if (
+        itemY + itemSize > canvas.height - playerHeight &&
+        itemX < playerX + playerWidth &&
+        itemX + itemSize > playerX
+    ) {
+        score++;
+    
+        itemX = Math.random() * (canvas.width - itemSize);
+        itemY = 0;
+    }
+
+
+    if (itemY > canvas.height) {
+        itemX = Math.random() * (canvas.width - itemSize);
+        itemY = 0;
+    }
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+    ctx.fillStyle = 'black';
+    ctx.fillRect(playerX, canvas.height - playerHeight, playerWidth, playerHeight);
+
+    ctx.fillStyle = 'green';
+    ctx.fillRect(itemX, itemY, itemSize, itemSize);
+
+    ctx.fillStyle = 'black';
+    ctx.font = '20px Arial';
+    ctx.fillText('Score: ' + score, 10, 30);
+}
+
+function gameLoop() {
+    update();
+    draw();
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+</script>
+</body>
+</html>
