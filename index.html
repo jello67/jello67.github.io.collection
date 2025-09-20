@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+    
     <title>Simple Collection Game</title>
     <style>
+        
         canvas {
             background-image: url("https://opengameart.org/sites/default/files/tilesetOpenGameBackground_1.png");
             border: 3px solid rgb(187, 182, 182);
             display: block;
             margin: auto;
         }
+        
     </style>
+        
 </head>
+        
 <body>
-<canvas id="gameCanvas" width="400" height="600"></canvas>
+        
+<canvas id="gameCanvas" width="400" height="600">
+        
+</canvas>
+        
 <script>
+        
 const canvas = document.getElementById('gameCanvas');
+        
 const ctx = canvas.getContext('2d');
 
 let playerX = 180;
@@ -34,10 +45,12 @@ document.addEventListener('keydown', function(k) {
     if (k.key === 'ArrowLeft') leftPressed = true;
     if (k.key === 'ArrowRight') rightPressed = true;
 });
+        
 document.addEventListener('keyup', function(k) {
     if (k.key === 'ArrowLeft') leftPressed = false;
     if (k.key === 'ArrowRight') rightPressed = false;
 });
+        
 
 function update() {
     if (leftPressed && playerX > 0) {
@@ -65,6 +78,7 @@ function update() {
         itemY = 0;
     }
 }
+        
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -72,9 +86,11 @@ function draw() {
 
     ctx.fillStyle = 'black';
     ctx.fillRect(playerX, canvas.height - playerHeight, playerWidth, playerHeight);
+        
 
     ctx.fillStyle = 'green';
     ctx.fillRect(itemX, itemY, itemSize, itemSize);
+        
 
     ctx.fillStyle = 'black';
     ctx.font = '20px Arial';
@@ -86,8 +102,12 @@ function gameLoop() {
     draw();
     requestAnimationFrame(gameLoop);
 }
+        
 
 gameLoop();
+        
 </script>
+        
 </body>
+        
 </html>
